@@ -1,0 +1,34 @@
+name: doubleencore
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Runs on every Sunday at 00:00 UTC
+    #
+    #        ┌────────────── minute
+    #        │ ┌──────────── hour
+    #        │ │ ┌────────── day (month)
+    #        │ │ │ ┌──────── month
+    #        │ │ │ │ ┌────── day (week)
+    - cron: '0 0 * * 0'
+
+jobs:
+  github-collaborator-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get repo collaborator report
+        uses: ./
+        with:
+          token: ${{ secrets.ORG_TOKEN }}
+          org: 'doubleencore'
+          affil: 'ALL'
+          permission: 'ALL'
+          days: '90'
+        # json: 'FALSE'
+        # appid: ${{ secrets.APPID }}
+        # privatekey: ${{ secrets.PRIVATEKEY }}
+        # installationid: ${{ secrets.INSTALLATIONID }}
